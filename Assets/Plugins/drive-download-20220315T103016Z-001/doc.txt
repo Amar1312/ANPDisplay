@@ -1,0 +1,6 @@
+Step1:Create Folder of Resources.
+Step2:Put Ticket.pdf in Resources.
+Step3:Create Folder Of Plugins
+Step4:Put itextsharp dll file in Plugins 
+Step5: Attach Script of Print Manager 
+Step6:On Button Generate file.
