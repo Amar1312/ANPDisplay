@@ -288,7 +288,7 @@ public class DataReader : MonoBehaviour
 
         string path = UIManager.Instance.PrefReadPath;
 
-         FileInfo file = new FileInfo(@path);
+        FileInfo file = new FileInfo(@path);
 
 
         //DirectoryInfo di = new DirectoryInfo(path);
@@ -354,16 +354,24 @@ public class DataReader : MonoBehaviour
         //For Finex
         for (int i = 0; i < _dataList.Length; i++)
         {
-
-            rawList _r = new rawList();
-            _rawlist.Add(_r);
-            string[] _reachraw = _dataList[i].Split('.');
-            _r._stringList = _reachraw.ToList();
+            if (!string.IsNullOrEmpty(_dataList[i]))
+            {
+                rawList _r = new rawList();
+                _rawlist.Add(_r);
+                string[] _reachraw = _dataList[i].Split(' ');
+                List<string> _list = new List<string>();
+                _list = _reachraw.ToList();
+                for (int j = 0; j < _list.Count; j++)
+                {
+                    if (!string.IsNullOrEmpty(_list[j]))
+                        _r._stringList.Add(_list[j]);
+                }
+            }
         }
 
-        FindRawNumberHavingMeanValue();
+        // FindRawNumberHavingMeanValue();
         // Find raw number which contain mean value 
-        FindRawNumberWhichContainMat();
+        //FindRawNumberWhichContainMat();
 
         GetHeatInfo();
 
@@ -509,63 +517,38 @@ public class DataReader : MonoBehaviour
         _importedMat.Clear();
         _importedvalue.Clear();
 
-
         //for getting materiala
         string[] separatingStrings = { " " };
 
         for (int j = 0; j < _MatColumnNumber.Count; j++)
         {
-            string[] _tmpArray1 = _rawlist[_MatColumnNumber[j] - 1]._stringList[1].Split(separatingStrings, System.StringSplitOptions.RemoveEmptyEntries);
-            foreach (string _tmp in _tmpArray1)
-                _importedMat.Add(_tmp);
+            for (int k = 0; k < _rawlist[_MatColumnNumber[j]]._stringList.Count; k++)
+            {
+                _importedMat.Add(_rawlist[_MatColumnNumber[j]]._stringList[k]);
+            }
         }
-
-
-
-        //for getting values
-        string[] _tmpArray6 = _rawlist[_columnNumber[0]]._stringList[0].Split(separatingStrings, System.StringSplitOptions.RemoveEmptyEntries);
-        string fstChar = _tmpArray6[1];
-        Debug.Log("first character " + fstChar);
-        string floatvalue = "";
-
 
         for (int j = 0; j < _columnNumber.Count; j++)
         {
-            for (int i = 1; i < _rawlist[_columnNumber[j]]._stringList.Count; i++)
+            for (int k = 0; k < _rawlist[_columnNumber[j]]._stringList.Count; k++)
             {
-                // Debug.Log("string data" + i);
-                string[] _tmpArray7 = _rawlist[_columnNumber[j]]._stringList[i].Split(separatingStrings, System.StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string _tmp in _tmpArray7)
+                Debug.Log(_rawlist[_columnNumber[j]]._stringList[k] + "//");
+                if (_rawlist[_columnNumber[j]]._stringList[k].Any(char.IsDigit))
                 {
-                    // Debug.Log("7value " + _tmp);
+                    if(_rawlist[_columnNumber[j]]._stringList[k].Contains('<') )
+
+
+                    Debug.Log(_rawlist[_columnNumber[j]]._stringList[k] + "///");
+                    float _float;
+                    float.TryParse(_rawlist[_columnNumber[j]]._stringList[k], out _float);
+                    if (_float != 10000)
+                        _importedvalue.Add(_float);
                 }
 
-                //Debug.Log("fst chaarcter" + fstChar);
-
-                if (_tmpArray7.Length > 2)
-                {
-                    floatvalue = (fstChar + "." + _tmpArray7[1]);
-
-                    string dummy1 = floatvalue.Replace('<', ' ').Trim();
-                    string dummy2 = dummy1.Replace('>', ' ').Trim();
-                    _importedvalue.Add(float.Parse(dummy2));
-
-                    fstChar = _tmpArray7[2];
-
-                    // Debug.Log("fst character" + fstChar);
-                }
-                else
-                {
-                    floatvalue = (fstChar + "." + _tmpArray7[1]);
-                    // Debug.Log("ffvalue" + floatvalue);
-                    string dummy1 = floatvalue.Replace('<', ' ').Trim();
-                    string dummy2 = dummy1.Replace('>', ' ').Trim();
-                    // Debug.Log("dummy 2" + dummy2);
-                    _importedvalue.Add(float.Parse(dummy2));
-                }
             }
         }
+
+
 
         _DummyText1.text = _importedvalue.Count.ToString();
         _Dummytext2.text = _importedMat.Count.ToString();
@@ -652,8 +635,8 @@ public class DataReader : MonoBehaviour
             _r._stringList = _reachraw.ToList();
         }
 
-        FindRawNumberHavingMeanValue();
-        FindRawNumberWhichContainMat();
+        // FindRawNumberHavingMeanValue();
+        //FindRawNumberWhichContainMat();
 
         GetHeatInfo();
 
@@ -752,10 +735,10 @@ public class DataReader : MonoBehaviour
             _PouringStatus.value = 0;
         }
 
-        if(_PouringStatus.value == 0)
+        if (_PouringStatus.value == 0)
         {
             string dummy = "";
-            for(int j = 3; j < lenght - 2; j++)
+            for (int j = 3; j < lenght - 2; j++)
             {
                 dummy = dummy + _tmpArray1[j].ToString();
             }
@@ -1848,7 +1831,7 @@ public class DataReader : MonoBehaviour
 
         float BC = 0;
         float BSi = 0;
-        float BCr = 0, BMn = 0, BP = 0, BS = 0, BCu = 0, BNi = 0, BSn = 0, BMo = 0, BMg = 0, BAl = 0, BCo = 0, BTi = 0, BV = 0, BPb = 0, BW=0;
+        float BCr = 0, BMn = 0, BP = 0, BS = 0, BCu = 0, BNi = 0, BSn = 0, BMo = 0, BMg = 0, BAl = 0, BCo = 0, BTi = 0, BV = 0, BPb = 0, BW = 0;
         float SCr = 0;
         float SMn = 0, SP = 0, SS = 0, SCu = 0, SNi = 0, SSn = 0, SMo = 0, SMg = 0;
 

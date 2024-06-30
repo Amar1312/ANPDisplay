@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: TechAvtra
-  productName: ALLOY ADDITION SUGGEST DISPLAY TRINITAS2
+  productName: ALLOY ADDITION SUGGEST DISPLAY ANP
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
@@ -162,7 +162,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Standalone: com.TechAvtra.ALLOY-ADDITION-SUGGEST-DISPLAY-TRINITAS2
+    Standalone: com.TechAvtra.ALLOY-ADDITION-SUGGEST-DISPLAY-ANP
   buildNumber:
     Standalone: 1
     iPhone: 0
